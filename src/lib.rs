@@ -23,3 +23,6 @@ pub fn otlp_op_registry(state: std::sync::Arc<dyn state::OtlpState>) -> handl_pl
     registry
 }
 
+
+/// The handl contract for `otlp_c.*` ops.
+pub const OTLP_C_HNL: &str = include_str!("../handl-packages/otlp/otlp.hnl");
