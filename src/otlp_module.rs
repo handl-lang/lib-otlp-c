@@ -40,14 +40,14 @@ impl OtlpModule {
         let mut registry = OpRegistry::new();
         register_otlp_ops(&mut registry, state);
         Self {
-            module: HandlModule::new("otlp", OTLP_HNL, &[]).with_ops(OTLP_OPS, Arc::new(registry)),
+            module: HandlModule::new("otlp_c", OTLP_HNL, &[]).with_ops(OTLP_OPS, Arc::new(registry)),
         }
     }
 }
 
 impl Module for OtlpModule {
     fn name(&self) -> &str {
-        "otlp"
+        "otlp_c"
     }
 
     fn function(&self, name: &str) -> Option<&dyn Function> {

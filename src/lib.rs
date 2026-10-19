@@ -12,3 +12,12 @@ mod state;
 mod stub;
 
 pub use otlp_module::{OTLP_OPS, OtlpModule, register_otlp_ops};
+
+/// Build an `OpRegistry` with the `otlp_c.*` ops bound to `state`.
+pub fn otlp_op_registry(state: std::sync::Arc<dyn state::OtlpState>) -> handl_plugin_lib_handl::OpRegistry {
+    let mut registry = handl_plugin_lib_handl::OpRegistry::new();
+    register_otlp_ops(&mut registry, state);
+    registry
+}
+
+pub use state::OtlpState;
