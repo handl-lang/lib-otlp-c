@@ -6,7 +6,7 @@
 //! `ffi.call("otlp_c.*", …)`.
 
 mod error;
-mod id;
+pub mod id;
 mod otlp_module;
 mod state;
 mod stub;
