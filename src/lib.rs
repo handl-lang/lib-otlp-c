@@ -23,4 +23,3 @@ pub fn otlp_op_registry(state: std::sync::Arc<dyn state::OtlpState>) -> handl_pl
     registry
 }
 
-pub use state::OtlpState;
