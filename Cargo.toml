@@ -1,0 +1,19 @@
+[package]
+name = "handl-plugin-lib-otlp-c"
+version = "0.1.0"
+edition = "2024"
+description = "otlp-c: native OTLP exporter backend for lib-otlp (ADR-0128 split)."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/handl-lang/lib-otlp-c"
+
+[lib]
+name = "handl_plugin_lib_otlp_c"
+path = "src/lib.rs"
+
+[dependencies]
+handl-platform = { git = "https://github.com/handl-lang/host", branch = "main" }
+handl-plugin-module = { git = "https://github.com/handl-lang/host", branch = "main" }
+handl-plugin-lib-handl = { git = "https://github.com/handl-lang/host", branch = "main" }
+handl-value = { git = "https://github.com/handl-lang/kernel", branch = "main" }
+handl-language = { git = "https://github.com/handl-lang/kernel", branch = "main" }
+serde_json = "1"
