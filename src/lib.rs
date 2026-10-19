@@ -13,8 +13,8 @@ mod stub;
 
 pub use otlp_module::{OTLP_OPS, OtlpModule, register_otlp_ops};
 pub use state::{MetricKind, MetricOptions, OtlpConfig, OtlpState, StartSpanOptions};
-pub use error::OtlpError;
-pub use stub::{OtlpEvent, OtlpResult, RecordedEvent, RecordedSpan, StubOtlpState};
+pub use error::{OtlpError, OtlpResult};
+pub use stub::{OtlpEvent, RecordedEvent, RecordedSpan, StubOtlpState};
 
 /// Build an `OpRegistry` with the `otlp_c.*` ops bound to `state`.
 pub fn otlp_op_registry(state: std::sync::Arc<dyn state::OtlpState>) -> handl_plugin_lib_handl::OpRegistry {
