@@ -1,4 +1,4 @@
-use handl_platform::EvalError as VmError;
+use handl_ops::OpError as VmError;
 use thiserror::Error;
 
 /// Errors that can occur inside the OTLP module.
