@@ -1,0 +1,13 @@
+-- lib-otlp-c: the `otlp` module — native OTLP exporter backend for
+-- `lib-otlp`. Transitional layout: the .hnl surface is
+-- `handl-packages/otlp/otlp.hnl` (the same `otlp.*` cap/op contract);
+-- the impl is the `handl-plugin-lib-otlp-c` crate under `src/`.
+{
+  deps: { otlp: "branch:main" },
+  modules: ["otlp"],
+  name: "otlp",
+  description: "Native OTLP exporter backend for the otlp contract — spans, logs, metrics, flush/shutdown.",
+  license: "MIT",
+  keywords: ["otlp", "telemetry", "tracing", "backend", "handl"],
+  homepage: "https://github.com/handl-lang/lib-otlp-c",
+}
