@@ -1,0 +1,27 @@
+# lib-otlp-c atom spec (P-013/T-151) — `otlp_c.*` atoms backed by the
+# native OTLP exporter impls in this crate (`src/otlp_module.rs`).
+#
+# The IDL: name = dispatch key, sig = handl signature (~> canonical),
+# impl = key into the impl table. The ops are STATEFUL (they share one
+# `Arc<dyn OtlpState>`), so the table is `otlp_op_impls(state)` — keyed
+# by the qualified op name itself — rather than a static `*_impls()`.
+# Consumed by `RegistrySource::KernelAtoms` in `plugin-lib-stdlib`'s
+# `otlp_c` module row (`ops::kernel_impls::otlp_c_impls` builds the
+# `HttpOtlpState` and delegates here).
+#
+# No `sig` fields: the pre-T-151 `RegistrySource::Kernel`/
+# `import_kernel` path attached no signatures, and the `otlp.*` decl
+# sigs in `handl-packages/otlp/otlp.hnl` belong to the contract
+# namespace, not these `otlp_c.*` dispatch keys — so the atoms stay
+# unsigned (dynamic-top) here too.
+module: otlp_c
+atoms:
+  - { name: otlp_c.configure, impl: otlp_c.configure }
+  - { name: otlp_c.start_span, impl: otlp_c.start_span }
+  - { name: otlp_c.end_span, impl: otlp_c.end_span }
+  - { name: otlp_c.set_attribute, impl: otlp_c.set_attribute }
+  - { name: otlp_c.add_event, impl: otlp_c.add_event }
+  - { name: otlp_c.record_log, impl: otlp_c.record_log }
+  - { name: otlp_c.record_metric, impl: otlp_c.record_metric }
+  - { name: otlp_c.flush, impl: otlp_c.flush }
+  - { name: otlp_c.shutdown, impl: otlp_c.shutdown }

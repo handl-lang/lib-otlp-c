@@ -17,7 +17,7 @@ mod state;
 mod stub;
 
 pub use error::{OtlpError, OtlpResult};
-pub use otlp_module::{OTLP_OPS, register_otlp_ops};
+pub use otlp_module::{OTLP_OPS, otlp_op_impls, register_otlp_ops};
 pub use state::{MetricKind, MetricOptions, OtlpConfig, OtlpState, StartSpanOptions};
 pub use stub::{OtlpEvent, RecordedEvent, RecordedSpan, StubOtlpState};
 
@@ -31,3 +31,10 @@ pub fn otlp_op_registry(state: std::sync::Arc<dyn state::OtlpState>) -> handl_op
 
 /// The handl contract for `otlp_c.*` ops.
 pub const OTLP_C_HNL: &str = include_str!("../handl-packages/otlp/otlp.hnl");
+
+/// The `otlp_c` atom spec (`atoms.yaml`, P-013/T-151) — the spec-driven
+/// source of truth for the 9 `otlp_c.*` atoms' dispatch names and
+/// `impl:` keys into [`otlp_op_impls`]. (The `.hnl` decls in
+/// [`OTLP_C_HNL`] declare the *contract* `otlp.*` surface — a different
+/// namespace consumed by the pure-handl `otlp` wrapper — so they stay.)
+pub const OTLP_C_ATOMS_YAML: &str = include_str!("../atoms.yaml");

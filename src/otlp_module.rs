@@ -334,56 +334,73 @@ pub const OTLP_OPS: &[&str] = &[
     "otlp_c.shutdown",
 ];
 
+/// The spec-driven impl table (P-013/T-151): qualified op name → the
+/// [`Op`] impl bound to `state`. Keyed by the *dispatch* name
+/// (`"otlp_c.configure"`, …) so the same table serves both
+/// [`register_otlp_ops`] and the `atoms.yaml` `impl:` keys — the ops are
+/// stateful, so the table is parameterized by the [`OtlpState`] rather
+/// than being a static `fn() -> Vec<_>` like the stateless libs.
+pub fn otlp_op_impls(state: Arc<dyn OtlpState>) -> Vec<(&'static str, Arc<dyn Op>)> {
+    vec![
+        (
+            "otlp_c.configure",
+            Arc::new(ConfigureFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.start_span",
+            Arc::new(StartSpanFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.end_span",
+            Arc::new(EndSpanFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.set_attribute",
+            Arc::new(SetAttributeFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.add_event",
+            Arc::new(AddEventFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.record_log",
+            Arc::new(RecordLogFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.record_metric",
+            Arc::new(RecordMetricFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.flush",
+            Arc::new(FlushFn {
+                state: state.clone(),
+            }),
+        ),
+        (
+            "otlp_c.shutdown",
+            Arc::new(ShutdownFn { state: state.clone() }),
+        ),
+    ]
+}
+
 /// Register the `otlp` ops into the given [`OpRegistry`], dispatching to
 /// the given [`OtlpState`] implementation.
 pub fn register_otlp_ops(registry: &mut OpRegistry, state: Arc<dyn OtlpState>) {
-    registry.register(
-        "otlp_c.configure",
-        Arc::new(ConfigureFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.start_span",
-        Arc::new(StartSpanFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.end_span",
-        Arc::new(EndSpanFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.set_attribute",
-        Arc::new(SetAttributeFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.add_event",
-        Arc::new(AddEventFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.record_log",
-        Arc::new(RecordLogFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.record_metric",
-        Arc::new(RecordMetricFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register(
-        "otlp_c.flush",
-        Arc::new(FlushFn {
-            state: state.clone(),
-        }),
-    );
-    registry.register("otlp_c.shutdown", Arc::new(ShutdownFn { state }));
+    for (name, op) in otlp_op_impls(state) {
+        registry.register(name, op);
+    }
 }
