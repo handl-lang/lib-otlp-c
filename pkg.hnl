@@ -5,7 +5,7 @@
 {
   deps: { otlp: "branch:main" },
   modules: ["otlp"],
-  name: "otlp",
+  name: "otlp-c",
   description: "Native OTLP exporter backend for the otlp contract — spans, logs, metrics, flush/shutdown.",
   license: "MIT",
   keywords: ["otlp", "telemetry", "tracing", "backend", "handl"],
